@@ -1,0 +1,27 @@
+# ─────────────────────────────────────────────────────────────────────────────
+#  CineMax — Local Development Docker Compose
+#  Backend/DB/Auth is handled by Supabase (cloud or local CLI).
+#
+#  For Supabase local dev, use the Supabase CLI instead:
+#    cd backend && supabase start
+#
+#  This file only runs the frontend Next.js dev server in Docker if needed.
+#  Normal dev workflow: run frontend with `npm run dev` directly (no Docker needed).
+# ─────────────────────────────────────────────────────────────────────────────
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_SUPABASE_URL=${SUPABASE_URL}
+      - NEXT_PUBLIC_SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
+      - NEXT_PUBLIC_RAZORPAY_KEY_ID=${RAZORPAY_KEY_ID}
+      - NEXT_PUBLIC_TMDB_API_KEY=${TMDB_API_KEY}
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next

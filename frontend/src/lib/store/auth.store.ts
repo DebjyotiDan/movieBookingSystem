@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { User } from '@/types';
+import { createClient } from '@/lib/supabase/client';
 
 interface AuthState {
   user: User | null;
@@ -27,6 +28,12 @@ export const useAuthStore = create<AuthState>()(
         if (typeof window !== 'undefined') {
           localStorage.removeItem('cinemax_token');
           document.cookie = 'cinemax_token=; Max-Age=0; path=/;';
+          try {
+            const supabase = createClient();
+            supabase.auth.signOut().catch(() => {});
+          } catch {
+            // ignore if not configured yet
+          }
         }
         set({ user: null, token: null, isAuthenticated: false });
       },

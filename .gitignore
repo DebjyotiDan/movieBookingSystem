@@ -1,3 +1,7 @@
 .env
 IMPLEMENTATION_PLAN.md
 .vscode/
+.agent/
+Id
+Id.txt
+

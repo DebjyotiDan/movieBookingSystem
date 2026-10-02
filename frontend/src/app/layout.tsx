@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './global.css';
 import { QueryProvider } from '@/providers/query-provider';
+import { AuthProvider } from '@/providers/auth-provider';
 import { Toaster } from 'sonner';
 
 const inter = Inter({
@@ -29,8 +30,10 @@ export default function RootLayout({
     <html lang="en" className={`dark ${inter.variable}`} suppressHydrationWarning>
       <body className="min-h-screen bg-background text-foreground antialiased font-sans flex flex-col">
         <QueryProvider>
-          {children}
-          <Toaster richColors position="top-right" theme="dark" />
+          <AuthProvider>
+            {children}
+            <Toaster richColors position="top-right" theme="dark" />
+          </AuthProvider>
         </QueryProvider>
       </body>
     </html>
